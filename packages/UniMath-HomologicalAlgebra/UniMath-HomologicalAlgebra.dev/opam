@@ -1,0 +1,27 @@
+opam-version: "1.2"
+maintainer: "palmskog@gmail.com"
+
+homepage: "https://github.com/UniMath/UniMath"
+dev-repo: "https://github.com/UniMath/UniMath.git"
+bug-reports: "https://github.com/UniMath/UniMath/issues"
+license: "Kind of MIT"
+
+build: [
+  [ make "BUILD_COQ=no" "INCLUDE=no" "PACKAGES=HomologicalAlgebra" ".coq_makefile_input" ]
+  [ "sed" "-i" "-e" "s=-Q\ UniMath\ UniMath=-Q\ UniMath/HomologicalAlgebra\ UniMath.HomologicalAlgebra=" ".coq_makefile_input" ]
+  [ make "BUILD_COQ=no" "-j%{jobs}%" ]
+]
+install: [ make "BUILD_COQ=no" "install" ]
+remove: [ "sh" "-c" "rm -rf '%{lib}%/coq/user-contrib/UniMath/HomologicalAlgebra'" ]
+depends: [
+  "UniMath-Foundations" {= "dev"}
+  "UniMath-MoreFoundations" {= "dev"}
+  "UniMath-Algebra" {= "dev"}
+  "UniMath-NumberSystems" {= "dev"}
+  "UniMath-CategoryTheory" {= "dev"}
+]
+conflicts: [
+  "UniMath" {= "dev"}
+]
+tags: []
+authors: ["The UniMath Development Team"]
